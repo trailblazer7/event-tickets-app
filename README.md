@@ -42,4 +42,4 @@ npm run dev
 
 - Infinite scroll(pagination). Each time when user scroll down we'll call API for next tickets(10 by default)
 - Search Bar. When typing a search query in the input, a search for matching tickets by title and description will be performed
-- Layout change based on the ?userType query parameter: ?userType=local - show tickets in a grid layout, ?userType=tourist - show tickets in a list layout(local by default). Example: http://localhost:5173/?userType=tourist
+- Layout change based on the **?userType** query parameter: **?userType=local** - show tickets in a grid layout, ?userType=tourist - show tickets in a list layout(local by default). Example: **http://localhost:5173/?userType=tourist**

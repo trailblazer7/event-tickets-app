@@ -18,7 +18,7 @@ npm install
 
 ### 2. Configure your local environment
 
-Copy the .env.local.example file in this directory to .env (which will be ignored by Git):
+Copy the .env.local.example file in this directory to .env (which will be ignored by Git). Set **VITE_API_URL** inside your environment
 
 ```
 cp .env.local.example .env

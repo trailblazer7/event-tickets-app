@@ -13,7 +13,7 @@ export const fetchTickets = async ({
 }: FetchTicketsProps) => {
   try {
     const response = await axios.get<TicketResponse>(
-      `${import.meta.env.VITE_API_KEY}/api/tickets`,
+      `${import.meta.env.VITE_API_URL}/api/tickets`,
       {
         params: {
           page: pageParam,

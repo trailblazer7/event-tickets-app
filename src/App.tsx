@@ -25,7 +25,7 @@ function App() {
 
   return (
     <Container>
-      <h2 className="font-extrabold text-[32px] text-center pb-4 pt-6">
+      <h2 className="font-extrabold text-[32px] text-center pb-4 pt-12">
         Event Tickets Manager
       </h2>
       <SearchBar value={searchTerm} onChange={setSearchTerm} />

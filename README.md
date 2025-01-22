@@ -8,7 +8,7 @@ The deployed version can be found at [`https://event-tickets-app.vercel.app/`](h
 
 ## Getting Started
 
-### 1. Clone the repository:
+### 1. Clone the repository
 
 ```bash
 git clone https://github.com/trailblazer7/event-tickets-app.git
@@ -24,25 +24,25 @@ Copy the .env.local.example file in this directory to .env (which will be ignore
 cp .env.local.example .env
 ```
 
-### 3. Run the API server:
+### 3. Run the API server
 
 ```bash
 npm run server
 ```
 
-### 4. Run the development server:
+### 4. Run the development server
 
 ```bash
 npm run dev
 ```
 
-### 5. Run tests:
+### 5. Run tests
 
 ```bash
 npm run test
 ```
 
-### 6. Open [http://localhost:5173/](http://localhost:5173/) with your browser to see the result.
+### 6. Open [http://localhost:5173/](http://localhost:5173/) with your browser to see the result
 
 ## Key Features
 

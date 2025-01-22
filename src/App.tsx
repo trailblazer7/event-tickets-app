@@ -1,11 +1,5 @@
-import { useMemo, useState } from 'react';
-import {
-  Container,
-  SearchBar,
-  TicketGrid,
-  TicketList,
-  Footer,
-} from './components';
+import { useState } from 'react';
+import { Container, SearchBar, TicketGrid, TicketList } from './components';
 import { Loader2 } from 'lucide-react';
 import { useDebounce } from 'use-debounce';
 import NoResults from './components/no-results';
@@ -23,13 +17,11 @@ function App() {
     debouncedSearchTerm,
   });
 
-  const TicketComponent = useMemo(() => {
-    return !tickets.length
-      ? NoResults
-      : USER_TYPE === 'local'
-        ? TicketGrid
-        : TicketList;
-  }, [tickets.length, USER_TYPE]);
+  const TicketComponent = !tickets.length
+    ? NoResults
+    : USER_TYPE === 'local'
+      ? TicketGrid
+      : TicketList;
 
   return (
     <Container>
@@ -51,7 +43,6 @@ function App() {
           )}
         </>
       )}
-      <Footer />
     </Container>
   );
 }

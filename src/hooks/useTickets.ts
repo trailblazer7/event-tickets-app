@@ -3,7 +3,7 @@ import { Ticket } from '../types';
 import { useQuery } from 'react-query';
 import { fetchTickets } from '../api/tickets';
 import { useInView } from 'react-intersection-observer';
-import { INVIEW_ELEMENT_THRESHOLD } from '../constants';
+import { INVIEW_ELEMENT_THRESHOLD, SKIP_INVIEW_TIMEOUT } from '../constants';
 
 interface UseTicketsProps {
   searchTerm: string;
@@ -17,7 +17,7 @@ export const useTickets = ({
   const [page, setPage] = useState<number>(1);
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [hasMore, setHasMore] = useState<boolean>(true);
-  const skipInView = useRef<boolean>(false);
+  const [skipInView, setSkipInView] = useState<boolean>(false);
   const skipTicketsFetch = useRef<boolean>(false);
   const { ref: inViewRef, inView } = useInView({
     threshold: INVIEW_ELEMENT_THRESHOLD,
@@ -48,8 +48,8 @@ export const useTickets = ({
   // Reset skipInView after timeout when tickets change to prevent multiple page changes
   useEffect(() => {
     const timeout = setTimeout(() => {
-      skipInView.current = false;
-    }, 700);
+      setSkipInView(false);
+    }, SKIP_INVIEW_TIMEOUT);
     return () => clearTimeout(timeout);
   }, [tickets]);
 
@@ -64,18 +64,17 @@ export const useTickets = ({
 
   // Reset tickets on searchTerm change and set page to 1
   useEffect(() => {
-    skipInView.current = true;
+    setSkipInView(true);
     setPage(1);
-    setTickets([]);
   }, [debouncedSearchTerm]);
 
   // If hasMore tickets and user scrolled down to the bottom then set next page
   useEffect(() => {
-    if (inView && hasMore && !isFetching && !skipInView.current) {
-      skipInView.current = true;
+    if (inView && hasMore && !isFetching && !skipInView) {
+      setSkipInView(true);
       setPage((prev) => prev + 1);
     }
-  }, [inView, hasMore, isFetching]);
+  }, [inView, hasMore, isFetching, skipInView]);
 
   return {
     tickets,

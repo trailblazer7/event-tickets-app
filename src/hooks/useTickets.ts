@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Ticket } from '../types';
+import { Ticket, UserType } from '../types';
 import { useQuery } from 'react-query';
 import { fetchTickets } from '../api/tickets';
 import { useInView } from 'react-intersection-observer';
@@ -8,11 +8,13 @@ import { INVIEW_ELEMENT_THRESHOLD, SKIP_INVIEW_TIMEOUT } from '../constants';
 interface UseTicketsProps {
   searchTerm: string;
   debouncedSearchTerm: string;
+  userType: UserType;
 }
 
 export const useTickets = ({
   searchTerm,
   debouncedSearchTerm,
+  userType,
 }: UseTicketsProps) => {
   const [page, setPage] = useState<number>(1);
   const [tickets, setTickets] = useState<Ticket[]>([]);
@@ -25,8 +27,13 @@ export const useTickets = ({
 
   // Fetch tickets on page change
   const { data, isLoading, isFetching } = useQuery(
-    ['tickets', page, debouncedSearchTerm],
-    () => fetchTickets({ pageParam: page, serachTerm: debouncedSearchTerm }),
+    ['tickets', page, debouncedSearchTerm, userType],
+    () =>
+      fetchTickets({
+        pageParam: page,
+        serachTerm: debouncedSearchTerm,
+        userType,
+      }),
     {
       keepPreviousData: true,
       enabled: !skipTicketsFetch.current,

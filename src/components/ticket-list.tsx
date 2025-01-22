@@ -1,6 +1,7 @@
 import React from 'react';
 import { Calendar, MapPin } from 'lucide-react';
 import { Ticket } from '../types';
+import Badge from './ui/badge';
 
 interface TicketListProps {
   tickets: Ticket[];
@@ -27,7 +28,10 @@ const TicketList: React.FC<TicketListProps> = ({ tickets }) => {
               </p>
             </div>
             <div>
-              <div className="flex flex-col md:flex-row md:items-center gap-x-6">
+              <div className="flex flex-col md:flex-row md:items-center gap-x-2 gap-y-1">
+                <div className="flex">
+                  <Badge label={ticket.userType?.title} />
+                </div>
                 <div className="flex items-center gap-2 text-gray-500">
                   <Calendar size={18} />
                   <span>{new Date(ticket.date).toLocaleDateString()}</span>

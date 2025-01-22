@@ -1,6 +1,7 @@
 import React from 'react';
 import { Calendar, MapPin, Ticket as TicketIcon } from 'lucide-react';
 import { Ticket } from '../types';
+import Badge from './ui/badge';
 
 interface TicketGridProps {
   tickets: Ticket[];
@@ -32,6 +33,9 @@ const TicketGrid: React.FC<TicketGridProps> = ({ tickets }) => {
               <div className="flex items-center gap-2 text-gray-500 mb-4">
                 <MapPin size={18} />
                 <span>{ticket.location}</span>
+              </div>
+              <div>
+                <Badge label={ticket.userType?.title} />
               </div>
               <div className="flex justify-between flex-wrap items-center">
                 <span className="text-2xl font-bold text-indigo-600">

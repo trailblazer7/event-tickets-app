@@ -1,10 +1,19 @@
-import { useState } from 'react';
-import { Container, SearchBar, TicketGrid, TicketList } from './components';
+import { useMemo, useState } from 'react';
+import {
+  Container,
+  RadioGroup,
+  SearchBar,
+  TicketGrid,
+  TicketList,
+} from './components';
 import { Loader2 } from 'lucide-react';
 import { useDebounce } from 'use-debounce';
 import NoResults from './components/no-results';
-import { SEARCH_INPUT_DEBOUNCE_TIME, USER_TYPE } from './constants';
+import { SEARCH_INPUT_DEBOUNCE_TIME } from './constants';
 import { useTickets } from './hooks/useTickets';
+import { UserType } from './types';
+import { useQuery } from 'react-query';
+import { fetchUserTypes } from './api/users';
 
 function App() {
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -12,16 +21,25 @@ function App() {
     searchTerm,
     SEARCH_INPUT_DEBOUNCE_TIME
   );
+  const [userType, setUserType] = useState<UserType>('local');
+  const { data: userTypesData } = useQuery(['userTypes'], () =>
+    fetchUserTypes()
+  );
   const { tickets, isLoading, isFetching, hasMore, inViewRef } = useTickets({
     searchTerm,
     debouncedSearchTerm,
+    userType,
   });
 
-  const TicketComponent = !tickets.length
-    ? NoResults
-    : USER_TYPE === 'local'
-      ? TicketGrid
-      : TicketList;
+  const TicketComponent = useMemo(
+    () =>
+      !tickets.length
+        ? NoResults
+        : userType === 'local'
+          ? TicketGrid
+          : TicketList,
+    [tickets.length, userType]
+  );
 
   return (
     <Container>
@@ -29,6 +47,18 @@ function App() {
         Event Tickets Manager
       </h2>
       <SearchBar value={searchTerm} onChange={setSearchTerm} />
+      {userTypesData && (
+        <RadioGroup
+          name="userType"
+          options={userTypesData.userTypes.map((userType) => ({
+            label: userType.title,
+            value: userType.value,
+          }))}
+          selectedValue={userType}
+          onChange={(value) => setUserType(value as UserType)}
+        />
+      )}
+
       {isLoading ? (
         <div className="flex justify-center items-center h-64">
           <Loader2 className="animate-spin" size={48} />

@@ -1,15 +1,17 @@
 import axios from 'axios';
-import { TicketResponse } from '../types';
+import { TicketResponse, UserType } from '../types';
 import { ITEMS_PER_PAGE } from '../constants';
 
 interface FetchTicketsProps {
   pageParam: number;
   serachTerm: string;
+  userType: UserType;
 }
 
 export const fetchTickets = async ({
   pageParam = 1,
   serachTerm,
+  userType,
 }: FetchTicketsProps) => {
   try {
     const response = await axios.get<TicketResponse>(
@@ -19,6 +21,7 @@ export const fetchTickets = async ({
           page: pageParam,
           limit: ITEMS_PER_PAGE,
           search: serachTerm,
+          userType,
         },
       }
     );
